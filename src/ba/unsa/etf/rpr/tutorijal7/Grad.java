@@ -1,4 +1,4 @@
-package ba.unsa.etf.rpr.t7;
+package ba.unsa.etf.rpr.tutorijal7;
 
 public class Grad {
     String naziv;
