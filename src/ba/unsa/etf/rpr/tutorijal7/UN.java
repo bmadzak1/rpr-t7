@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class UN {
     private ArrayList<Drzava> drzave = new ArrayList<>();
 
-    UN(){
+    public UN(){
 
     }
 

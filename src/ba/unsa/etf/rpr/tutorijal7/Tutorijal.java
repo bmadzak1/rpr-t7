@@ -1,16 +1,24 @@
 package ba.unsa.etf.rpr.tutorijal7;
 
+import org.w3c.dom.*;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.SimpleTimeZone;
 
 public class Tutorijal {
 
     Tutorijal(){}
 
     public static void main(String[] args){
-        ucitajGradove();
+        UN un = ucitajXml(ucitajGradove());
+        for(Drzava d : un.getDrzave())
+            System.out.println(d.getNaziv() + " " + d.getGlavniGrad() + " " + d.getBrojStanovnika() + " " + d.getPovrsina() + " " + d.getPovrsina());
     }
 
     public static ArrayList<Grad> ucitajGradove(){
@@ -57,7 +65,38 @@ public class Tutorijal {
         return gradovi;
     }
 
-    void ubaciGrad(String s){
+    public static UN ucitajXml(ArrayList<Grad> gradovi){
+        UN un = new UN();
+        Document xmldoc = null;
+        try {
+            DocumentBuilder docReader = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            xmldoc = docReader.parse(new File("drzave.xml"));
+            NodeList djeca = xmldoc.getDocumentElement().getChildNodes();
+            for(int i = 0; i < djeca.getLength(); i++){
+                Node dijete = djeca.item(i);
+                Drzava drzava = new Drzava();
+                NodeList djeca2 = dijete.getChildNodes();
+                for(int j = 0; j < djeca2.getLength(); j++){
+                    Node dijete2 = djeca2.item(j);
+                    if(dijete2 instanceof Element){
+                        Element el = (Element)dijete2;
+                        if(el.getTagName() == "naziv"){
+                            drzava.setNaziv(el.getNodeValue());
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
 
+        }
+
+        for(Drzava d : un.getDrzave()){
+            for(Grad g : gradovi){
+                if(d.getGlavniGrad().getNaziv() == g.getNaziv()){
+                    d.getGlavniGrad().setTemperature(g.getTemperature());
+                }
+            }
+        }
+        return un;
     }
 }

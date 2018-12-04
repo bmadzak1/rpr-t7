@@ -2,16 +2,16 @@ package ba.unsa.etf.rpr.tutorijal7;
 
 public class Drzava {
     private String naziv;
-    private int brojStanovinika;
+    private int brojStanovnika;
     private double povrsina;
-    private String jedinicaZaPovrsinu;
+    private String jedinicaPovrsine;
     private Grad glavniGrad;
 
     public Drzava(){
         naziv = "";
-        brojStanovinika = 0;
+        brojStanovnika = 0;
         povrsina = 0;
-        jedinicaZaPovrsinu = "";
+        jedinicaPovrsine = "";
         glavniGrad = null;
     }
 
@@ -23,12 +23,12 @@ public class Drzava {
         this.naziv = naziv;
     }
 
-    public int getBrojStanovinika() {
-        return brojStanovinika;
+    public int getBrojStanovnika() {
+        return brojStanovnika;
     }
 
-    public void setBrojStanovinika(int brojStanovinika) {
-        this.brojStanovinika = brojStanovinika;
+    public void setBrojStanovnika(int brojStanovnika) {
+        this.brojStanovnika = brojStanovnika;
     }
 
     public double getPovrsina() {
@@ -39,12 +39,12 @@ public class Drzava {
         this.povrsina = povrsina;
     }
 
-    public String getJedinicaZaPovrsinu() {
-        return jedinicaZaPovrsinu;
+    public String getJedinicaPovrsine() {
+        return jedinicaPovrsine;
     }
 
-    public void setJedinicaZaPovrsinu(String jedinicaZaPovrsinu) {
-        this.jedinicaZaPovrsinu = jedinicaZaPovrsinu;
+    public void setJedinicaPovrsine(String jedinicaPovrsine) {
+        this.jedinicaPovrsine = jedinicaPovrsine;
     }
 
     public Grad getGlavniGrad() {

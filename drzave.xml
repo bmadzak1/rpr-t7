@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<drzave>
+    <drzava brojStanovnika="3500000">
+        <naziv>Bosna i Hercegovina</naziv>
+        <glavniGrad brojStanovnika="400000">
+            <naziv>Sarajevo</naziv>
+        </glavniGrad>
+        <povrsina jedinicaPovrsine="km2">51129</povrsina>
+        <moneta naziv="KM" />
+    </drzava>
+</drzave>
