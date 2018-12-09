@@ -4,8 +4,10 @@ import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.beans.XMLEncoder;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,9 +18,7 @@ public class Tutorijal {
     Tutorijal(){}
 
     public static void main(String[] args){
-        UN un = ucitajXml(ucitajGradove());
-        for(Drzava d : un.getDrzave())
-            System.out.println(d.getNaziv() + " " + d.getGlavniGrad() + " " + d.getBrojStanovnika() + " " + d.getPovrsina() + " " + d.getPovrsina());
+        zapisiXml(ucitajXml(ucitajGradove()));
     }
 
     public static ArrayList<Grad> ucitajGradove(){
@@ -67,6 +67,7 @@ public class Tutorijal {
 
     public static UN ucitajXml(ArrayList<Grad> gradovi){
         UN un = new UN();
+        ArrayList<Drzava> drzave = new ArrayList<Drzava>();
         Document xmldoc = null;
         try {
             DocumentBuilder docReader = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -74,29 +75,50 @@ public class Tutorijal {
             NodeList djeca = xmldoc.getDocumentElement().getChildNodes();
             for(int i = 0; i < djeca.getLength(); i++){
                 Node dijete = djeca.item(i);
-                Drzava drzava = new Drzava();
-                NodeList djeca2 = dijete.getChildNodes();
-                for(int j = 0; j < djeca2.getLength(); j++){
-                    Node dijete2 = djeca2.item(j);
-                    if(dijete2 instanceof Element){
-                        Element el = (Element)dijete2;
-                        if(el.getTagName() == "naziv"){
-                            drzava.setNaziv(el.getNodeValue());
+                if(dijete instanceof Element){
+                    Element drzava = (Element) dijete;
+                    if(drzava.getTagName() == "drzava"){
+                        int brojStanovnika = Integer.parseInt(drzava.getAttribute("stanovnika"));
+                        String naziv = drzava.getElementsByTagName("naziv").item(0).getTextContent();
+                        Double povrsina = Double.parseDouble(drzava.getElementsByTagName("povrsina").item(0).getTextContent());
+                        Node temp = drzava.getElementsByTagName("povrsina").item(0);
+                        String jedinicaPovrsine = drzava.getAttribute("jedinica");
+                        NodeList glavniGrad = drzava.getElementsByTagName("glavnigrad");
+                        Element grad = (Element)glavniGrad.item(0);
+                        String nazivGlavnogGrada = grad.getElementsByTagName("naziv").item(0).getTextContent();
+                        int brojStanovnikaGrada = Integer.parseInt(grad.getAttribute("stanovnika"));
+                        double[] temperatureGrada = new double[1000];
+                        boolean postojiGrad = false;
+                        for(Grad g : gradovi){
+                            if(g.getNaziv() == nazivGlavnogGrada){
+                                temperatureGrada = g.getTemperature();
+                                g.setBrojStanovinika(brojStanovnikaGrada);
+                                drzave.add(new Drzava(naziv, brojStanovnika, povrsina, jedinicaPovrsine, g));
+                                postojiGrad = true;
+                            }
+                        }
+                        if(!postojiGrad){
+                            drzave.add(new Drzava(naziv, brojStanovnika, povrsina, jedinicaPovrsine, null));
                         }
                     }
                 }
             }
         }catch (Exception e){
-
+            System.out.println("drzave.xml se ne moze otvoriti");
         }
-
-        for(Drzava d : un.getDrzave()){
-            for(Grad g : gradovi){
-                if(d.getGlavniGrad().getNaziv() == g.getNaziv()){
-                    d.getGlavniGrad().setTemperature(g.getTemperature());
-                }
-            }
-        }
+        un.setDrzave(drzave);
         return un;
+    }
+
+    public static void zapisiXml(UN un){
+        XMLEncoder izlaz = null;
+        try{
+            izlaz = new XMLEncoder(new FileOutputStream("un.xml"));
+            izlaz.writeObject(un);
+        }catch (FileNotFoundException e){
+            System.out.println("un.xml ne postoji");
+        }finally {
+            izlaz.close();
+        }
     }
 }
