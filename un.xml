@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="10.0.2" class="java.beans.XMLDecoder">
+ <object class="ba.unsa.etf.rpr.tutorijal7.UN" id="UN0">
+  <void property="drzave">
+   <void method="add">
+    <object class="ba.unsa.etf.rpr.tutorijal7.Drzava">
+     <void property="brojStanovnika">
+      <int>3500000</int>
+     </void>
+     <void property="naziv">
+      <string>Bosna i Hercegovina</string>
+     </void>
+     <void property="povrsina">
+      <double>51129.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ba.unsa.etf.rpr.tutorijal7.Drzava">
+     <void property="brojStanovnika">
+      <int>81000000</int>
+     </void>
+     <void property="naziv">
+      <string>Njemacka</string>
+     </void>
+     <void property="povrsina">
+      <double>357375.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ba.unsa.etf.rpr.tutorijal7.Drzava">
+     <void property="brojStanovnika">
+      <int>61000000</int>
+     </void>
+     <void property="naziv">
+      <string>Francuska</string>
+     </void>
+     <void property="povrsina">
+      <double>543965.0</double>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+</java>
